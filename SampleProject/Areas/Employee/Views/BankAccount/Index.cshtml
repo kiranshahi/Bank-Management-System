@@ -1,0 +1,256 @@
+﻿@model BOL.tblOpenAct
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    //List<actType> QL = new List<actType>();                  
+    //QL.Add(new actType() { Id = 0, acttype = "Select Account Type" });
+    //QL.Add(new actType() { Id = 1, acttype = "0 Balance Account" });
+    //QL.Add(new actType() { Id = 2, acttype = "General Account" });
+    //QL.Add(new actType() { Id = 3, acttype = "Company Account" });
+
+}
+
+@{
+    if (TempData["msg"] != null)
+    {
+        string msg = TempData["msg"].ToString();
+        <script type="text/javascript">
+            alert("@msg");
+        </script>
+    }
+}
+
+<h2>Open New Account</h2>
+
+@using (Html.BeginForm(null,null,FormMethod.Post, new { enctype = "multipart/form-data" }))
+{ 
+ 
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="divRight">
+            @*<img id="blah" src="#" alt="your image" />*@
+            <input type="file" id="FileUpload1" multiple required />
+            <input type="button" id="btnUpload" value="Upload Files" />
+            @Html.TextBoxFor(model => model.Photo, new { maxlength = 255, id = "fileName" })
+           
+            
+        </div>
+
+        <br /><br />
+        <div class="form-group">
+            @Html.LabelFor(model => model.branchName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.branchName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.branchName, "", new { @class = "text-danger" })
+            </div>
+
+
+
+        </div>
+
+        @*<div class="form-group" ng-hide="true">
+            @Html.LabelFor(model => model.IdPrimarykey, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.IdPrimarykey, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+            </div>*@
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.actType, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @*<select ng-model="d" ng-options="k.id as k.name for k in act">
+                    <options>{{d}}</options>
+                    </select>*@
+                @*<select ng-model="d">
+                        <option ng-repeat="k in act" value="{{k.id}}">{{k.name }}</option>
+                    </select>*@
+
+                @Html.DropDownList("Acttype", (IEnumerable<SelectListItem>)ViewBag.Acttype, new { @class = "null" })
+                @Html.ValidationMessageFor(model => model.actType, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group" ng-controller="myCntrl-2" ng-init="ReadVal();">
+            @Html.LabelFor(model => model.actApprovedBy, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.actApprovedBy, new { @readonly = "readonly", ng_model = "ValueRead" })
+                @Html.ValidationMessageFor(model => model.actApprovedBy, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.custName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.custName, new { htmlAttributes = new { @class = "form-control" }, ng_model = "custname" })
+                @Html.ValidationMessageFor(model => model.custName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DOB, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.DOB, new { @type = "date" })
+                @Html.ValidationMessageFor(model => model.DOB, "", new { @class = "text-danger" })
+
+
+            </div>
+        </div>
+
+        <div ng-controller="usersController">
+            <div class="form-group">
+                @Html.LabelFor(model => model.openingDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.openingDate, new { @readonly = "readonly", ng_model = "today | date" })
+
+                    @Html.ValidationMessageFor(model => model.openingDate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.acctNo, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.acctNo, new { @type = "text", @value = "date" })
+                    @Html.ValidationMessageFor(model => model.acctNo, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.openingBalance, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.openingBalance, new { htmlAttributes = new { @class = "form-control" }, ng_model = "optBal", ng_change = "opnBaL(optBal)" })
+                    @Html.ValidationMessageFor(model => model.openingBalance, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.currentBalance, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.currentBalance, new { htmlAttributes = new { @class = "form-control" }, ng_model = "getopnBal" })
+                    @Html.ValidationMessageFor(model => model.currentBalance, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.nomineeName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.nomineeName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.nomineeName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.nomineeRelation, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.nomineeRelation, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.nomineeRelation, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" id="btnSubmit" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+       
+}
+
+<script>
+
+    //function readURL(input) {
+
+    //    if (input.files && input.files[0]) {
+    //        var reader = new FileReader();
+
+    //        reader.onload = function (e) {
+    //            $('#blah').attr('src', e.target.result);
+    //        }
+
+    //        reader.readAsDataURL(input.files[0]);
+    //    }
+    //}
+
+    //$("#FileUpload1").change(function () {
+    //    readURL(this);
+    //});
+
+    document.getElementById('FileUpload1').onchange = function () {
+
+        var filename = $(this).val();
+        $('#fileName').val(filename);
+
+    };
+
+    $(document).ready(function () {
+        $("#btnSubmit").click(function (event) {
+            if (!$('input[type="file"]').val()) {
+                event.preventDefault();
+                // Say your message here with a dialog, alert or confirmation
+                alert("Please Upload Your Photo");
+            }
+        });
+    });
+
+        //function validate(){
+
+        //    if($('#upload')[0].files.length === 0){
+        //        alert("Attachment Required");
+        //        $('#upload').focus();
+
+        //        return false;
+        //    }
+        //}
+
+
+	$(document).ready(function(){
+	    $('#btnUpload').click(function () {
+
+	        // Checking whether FormData is available in browser
+	        if (window.FormData !== undefined) {
+
+	            var fileUpload = $("#FileUpload1").get(0);
+	            var files = fileUpload.files;
+
+	            // Create FormData object
+	            var fileData = new FormData();
+
+	            // Looping over all files and add it to FormData object
+	            for (var i = 0; i < files.length; i++) {
+	                fileData.append(files[i].name, files[i]);
+	            }
+
+	            // Adding one more key to FormData object
+	            fileData.append('username', 'Manas');
+
+	            $.ajax({
+	                url: '/Employee/BankAccount/UploadFiles',
+	                type: "POST",
+	                contentType: false, // Not to set any content header
+	                processData: false, // Not to process data
+	                data: fileData,
+	                success: function (result) {
+	                    alert(result);
+	                },
+	                error: function (err) {
+	                    alert(err.statusText);
+	                }
+	            });
+	        } else {
+	            alert("FormData is not supported.");
+	        }
+	    });
+	});
+</script>

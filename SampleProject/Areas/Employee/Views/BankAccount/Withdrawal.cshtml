@@ -1,0 +1,122 @@
+﻿@model BOL.tblWithdrawal
+
+@{
+    ViewBag.Title = "Withdrawal";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    if (TempData["msg"] != null)
+    {
+        string msg = TempData["msg"].ToString();
+        <script type="text/javascript">
+            alert("@msg");
+        </script>
+    }
+
+    if (TempData["chqstatus"] != null)
+    {
+        string msgs= TempData["chqstatus"].ToString();
+        <script type="text/javascript">
+            alert("@msgs");
+        </script>
+    }
+
+}
+
+<h2>Withdrawal</h2>
+
+@using (Html.BeginForm("Withdrawal", "BankAccount", FormMethod.Post)) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal" ng-controller="usersController">
+        <h4>tblWithdrawal</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="divRight">
+            Balance <input type="text" name="curBalance" id="txtCurrentBalance" ng-model="Emp.currentBalance" /><br /><br />
+            Current Balance&nbsp;@Html.TextBoxFor(model => model.currentBalance, new { @name = "curBalance", @id = "txtCurrentBalance", ng_model = "totalBalance" })
+            @Html.ValidationMessageFor(model => model.currentBalance, "", new { @class = "text-danger" })
+        </div>
+        <br /><br /><br /><br /><br />
+        <div class="form-group">
+            @Html.LabelFor(model => model.branchName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.branchName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.branchName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.transDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.transDate, new { htmlAttributes = new { @class = "form-control" }, ng_model = "today | date" })
+                @Html.ValidationMessageFor(model => model.transDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.actNo, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.actNo, new { name = "acctno", ng_model = "acctNum", ng_change = "getbyeid(acctNum)" })
+                @Html.ValidationMessageFor(model => model.actNo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.actName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.actName, new { name = "acctno", ng_model = "Emp.custName" })
+                @Html.ValidationMessageFor(model => model.actName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.actType, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.actType, new { ng_model = "Emp.actType" })
+                @Html.ValidationMessageFor(model => model.actType, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group" >
+            @Html.LabelFor(model => model.chqNo, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.chqNo, new { ng_model = "Emp.chqNo", ng_change = "ChqStatus(Emp.chqNo)" })
+                @Html.ValidationMessageFor(model => model.chqNo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        
+        <div class="form-group">
+            @Html.LabelFor(model => model.chqDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.chqDate, new { ng_model = "Emp.chqdate", ng_change = "checkDate(Emp.chqdate)" })
+                @Html.ValidationMessageFor(model => model.chqDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+     
+        <div class="form-group">
+            @Html.LabelFor(model => model.withAmount, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.withAmount, new { ng_model = "withamt", ng_change = "checkBal(withamt)" })
+                @Html.ValidationMessageFor(model => model.withAmount, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.paidTo, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.paidTo, new { ng_model = "paidto"})
+                @Html.ValidationMessageFor(model => model.paidTo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+

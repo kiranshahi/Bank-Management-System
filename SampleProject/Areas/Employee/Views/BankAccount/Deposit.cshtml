@@ -1,0 +1,99 @@
+﻿@model BOL.tblDeposit
+@{
+    ViewBag.Title = "Deposit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    if (TempData["msg"] != null)
+    {
+        string msg = TempData["msg"].ToString();
+        <script type="text/javascript">
+            alert("@msg");
+        </script>
+    }
+}
+
+<h2>Deposit</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal" ng-controller="usersController">
+        
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="divRight">
+              Balance <input type="text" name = "curBalance", id = "txtCurrentBalance", ng-model = "Emp.currentBalance" /><br /><br />
+              Current Balance&nbsp;@Html.TextBoxFor(model => model.currentBalance, new { name = "curBalance", id = "txtCurrentBalance", ng_model = "totalBalance" })
+            @Html.ValidationMessageFor(model => model.currentBalance, "", new { @class = "text-danger" })
+               </div>
+        <br /><br /><br /><br /><br />
+        <div class="form-group">
+            @Html.LabelFor(model => model.branchName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.branchName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.branchName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.transactionDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.transactionDate, new { htmlAttributes = new { @class = "form-control" }, ng_model = "today | date" })
+                @Html.ValidationMessageFor(model => model.transactionDate, "", new { @class = "text-danger" })
+            </div>
+           
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.acctNo, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.acctNo, new { name = "acctno", ng_model = "acctNum", ng_change = "getbyeid(acctNum)" })
+                @Html.ValidationMessageFor(model => model.acctNo, "", new { @class = "text-danger" })
+            </div>
+                   </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.actName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.actName, new { name = "acctName", ng_model = "Emp.custName" })
+                @Html.ValidationMessageFor(model => model.actName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.actType, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.actType, new {  ng_model = "Emp.actType" })
+                @Html.ValidationMessageFor(model => model.actType, "", new { @class = "text-danger" })
+            </div>
+        </div>
+       
+        <div class="form-group">
+            @Html.LabelFor(model => model.depositAmount, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.depositAmount, new { ng_model = "Emp.depoAmt", ng_change = "curBal()" })
+                @Html.ValidationMessageFor(model => model.depositAmount, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        
+        <div class="form-group">
+            @Html.LabelFor(model => model.Depositer, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.Depositer, new { ng_model = "Emp.depositer" })
+                @Html.ValidationMessageFor(model => model.Depositer, "", new { @class = "text-danger" })
+            </div>
+        </div>
+      
+        
+     
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+
+

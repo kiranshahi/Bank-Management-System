@@ -1,0 +1,254 @@
+﻿@model BOL.tblLoan
+
+@{
+    ViewBag.Title = "IssueLoan";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>IssueLoan</h2>
+
+@{ 
+    if (TempData["LoantypeInsertMsg"]!=null)
+    {
+        string msg = TempData["LoantypeInsertMsg"].ToString();
+        <script type="text/javascript">
+            alert('@msg');
+        </script>
+    }
+}
+
+
+@using (Html.BeginForm("IssueLoan", "Loan", FormMethod.Post)) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal" ng-controller="usersController">
+      
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.actNo, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.actNo, new { ng_model = "acctNum", ng_change = "getbyeid(acctNum)" })
+                @Html.ValidationMessageFor(model => model.actNo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.cust_Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.cust_Name, new { ng_model = "Emp.custName", Readonly = true })
+                @Html.ValidationMessageFor(model => model.cust_Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Monthly_Income, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.Monthly_Income, new { ng_model = "monthlyIncome" })
+                @Html.ValidationMessageFor(model => model.Monthly_Income, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Loan_Amount, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.Loan_Amount, new { ng_model = "loanAmt", ng_change = "GetInterestAmount()" })
+                @Html.ValidationMessageFor(model => model.Loan_Amount, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group"  ng-init="GetAllLoanType();">
+            @Html.LabelFor(model => model.Loan_Type, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+               
+                @*<select ng-model="loanTypes" ng-change="GetInterestRateById(loanTypes)">
+                    <option ng-repeat="k in loanData" value="{{k.Master_Loan_Id}}">{{k.Loan_Type}}</option>
+                </select>*@
+
+                <select ng-options="k.Master_Loan_Id as k.Loan_Type for k in loanData"></select>
+               
+                @Html.TextBoxFor(model => model.Loan_Type, new { ng_model = "loanData.Loan_Type" } )
+                @Html.ValidationMessageFor(model => model.Loan_Type, "", new { @class = "text-danger" })
+                 
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Interest_Rate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.Interest_Rate, new { ng_model = "loanInterestData.Interest_Rate", ng_change = "GetInterestAmount()" })
+                @Html.ValidationMessageFor(model => model.Interest_Rate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Loan_Tenure_Years_, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.Loan_Tenure_Years_, new { ng_model = "loanPeriod", ng_change = "GetInterestAmount()" })
+                @Html.ValidationMessageFor(model => model.Loan_Tenure_Years_, "", new { @class = "text-danger" })
+            </div>
+        </div>
+       
+        <div class="form-group">
+            @Html.LabelFor(model => model.Interest, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.Interest, new { ng_model = "loanTotalInterest", Readonly = true })
+                @Html.ValidationMessageFor(model => model.Interest, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.YearlyInterest, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.YearlyInterest, new { ng_model = "loanAnnualInterest", Readonly = true })
+                @Html.ValidationMessageFor(model => model.YearlyInterest, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.MonthlyInterest, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.MonthlyInterest, new { ng_model = "MonthlyInterest" })
+                @Html.ValidationMessageFor(model => model.MonthlyInterest, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Issued_Date, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.Issued_Date, new { ng_model = "today | date", ReadOnly = true })
+                @Html.ValidationMessageFor(model => model.Issued_Date, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Mortgage_Details, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+
+                <input type="file" id="FileUpload1" multiple required />
+                <input type="button" id="btnUpload" value="Upload Files" />
+                @Html.TextBoxFor(model => model.Mortgage_Details, new { maxlength = 255, id = "fileName" })
+                @Html.ValidationMessageFor(model => model.Mortgage_Details, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Guarenteer_Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.Guarenteer_Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Guarenteer_Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Address_Guarenteer_, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.Address_Guarenteer_, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Address_Guarenteer_, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Contact_Number, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.Contact_Number, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Contact_Number, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<script>
+
+    //function readURL(input) {
+
+    //    if (input.files && input.files[0]) {
+    //        var reader = new FileReader();
+
+    //        reader.onload = function (e) {
+    //            $('#blah').attr('src', e.target.result);
+    //        }
+
+    //        reader.readAsDataURL(input.files[0]);
+    //    }
+    //}
+
+    //$("#FileUpload1").change(function () {
+    //    readURL(this);
+    //});
+
+    document.getElementById('FileUpload1').onchange = function () {
+
+        var filename = $(this).val();
+        $('#fileName').val(filename);
+
+    };
+
+    $(document).ready(function () {
+        $("#btnSubmit").click(function (event) {
+            if (!$('input[type="file"]').val()) {
+                event.preventDefault();
+                // Say your message here with a dialog, alert or confirmation
+                alert("Please Upload Your Photo");
+            }
+        });
+    });
+
+        //function validate(){
+
+        //    if($('#upload')[0].files.length === 0){
+        //        alert("Attachment Required");
+        //        $('#upload').focus();
+
+        //        return false;
+        //    }
+        //}
+
+
+	$(document).ready(function(){
+	    $('#btnUpload').click(function () {
+
+	        // Checking whether FormData is available in browser
+	        if (window.FormData !== undefined) {
+
+	            var fileUpload = $("#FileUpload1").get(0);
+	            var files = fileUpload.files;
+
+	            // Create FormData object
+	            var fileData = new FormData();
+
+	            // Looping over all files and add it to FormData object
+	            for (var i = 0; i < files.length; i++) {
+	                fileData.append(files[i].name, files[i]);
+	            }
+
+	            // Adding one more key to FormData object
+	            fileData.append('username', 'Manas');
+
+	            $.ajax({
+	                url: '/Employee/BankAccount/UploadFiles',
+	                type: "POST",
+	                contentType: false, // Not to set any content header
+	                processData: false, // Not to process data
+	                data: fileData,
+	                success: function (result) {
+	                    alert(result);
+	                },
+	                error: function (err) {
+	                    alert(err.statusText);
+	                }
+	            });
+	        } else {
+	            alert("FormData is not supported.");
+	        }
+	    });
+	});
+</script>

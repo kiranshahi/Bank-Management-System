@@ -1,0 +1,78 @@
+﻿@model BOL.tblLoanType
+
+@{
+    ViewBag.Title = "CreateLoanType";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Create Loan Type</h2>
+@{ 
+    if (TempData["LoantypeInsertMsg"]!=null)
+    {
+        string msg = TempData["LoantypeInsertMsg"].ToString();
+        <script type="text/javascript">
+            alert('@msg');
+        </script>
+    }
+}
+
+@using (Html.BeginForm("CreateLoanType","Loan",FormMethod.Post)) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+      
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group" ng-controller="myCntrl-2" ng-init="ReadVal();">
+            @Html.LabelFor(model => model.User, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.User, new {  ng_model = "ValueRead", Readonly = true })
+                @Html.ValidationMessageFor(model => model.User, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Loan_Type, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.Loan_Type, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Loan_Type, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Interest_Rate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.Interest_Rate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Interest_Rate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" /><br /><br />
+                <table border="1" ng-controller="usersController" ng-init="GetAllLoanType()">
+                    <tr>
+                        <th>
+                            User
+                        </th>
+                        <th>
+                            Loan Type
+                        </th>
+                        <th>
+                            Interest Rate
+                        </th>
+                    </tr>
+
+                    <tr ng-repeat="k in loanData">
+                        <td>{{k.User}}</td>
+                        <td>{{k.Loan_Type}}</td>
+                        <td>{{k.Interest_Rate}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+}
+
+

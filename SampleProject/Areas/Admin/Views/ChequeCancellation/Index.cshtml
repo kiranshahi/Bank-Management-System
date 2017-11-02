@@ -1,0 +1,91 @@
+﻿@model BOL.tblChqCancellation
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+@{
+    if (TempData["ChqCanMsg"] != null)
+    {
+        string msg = TempData["ChqCanMsg"].ToString();
+        <script type="text/javascript">
+            alert("@msg");
+        </script>
+    }
+}
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal" ng-controller="usersController">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.acctNo, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.acctNo, new { ng_model = "acctNum", ng_change = "getbyeid(acctNum)" })
+                @Html.ValidationMessageFor(model => model.acctNo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.custName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.custName, new { ng_model = "Emp.custName", Readonly = true })
+                @Html.ValidationMessageFor(model => model.custName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.chqNo, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.chqNo, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.chqNo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.cancellationDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.cancellationDate, new { ng_model = "today | date", Readonly = true })
+                @Html.ValidationMessageFor(model => model.cancellationDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Reason, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.Reason, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Reason, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Cancel Cheque" class="btn btn-default" />
+                <div ng-controller="usersController" class="divRight">
+                    <input type="text" ng-model="custname" , ng-change="getbyeidforchq(custname)" name="txtSearch" />
+                    <br /><br />
+                    <table border="1">
+                        <tr>
+                            <th>Cheque Number</th>
+                            <th>Customer Name</th>
+                            <th>Cheque Status</th>
+                        </tr>
+                        <tr ng-repeat="cheqs in Cheque">
+                            <td> {{cheqs.chqNo}} </td>
+                            <td> {{cheqs.custName}} </td>
+                            <td> {{cheqs.status}} </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+

@@ -1,0 +1,121 @@
+﻿@model BOL.tblChqIssue
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+            <h2>Index</h2>
+            @{
+                if (TempData["Create"] != null)
+                {
+                    string msg = TempData["Create"].ToString();
+                    <script type="text/javascript">
+            alert("@msg");
+                    </script>
+                }
+            }
+
+            @using (Html.BeginForm("Index", "ChequeIssue", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-horizontal">
+
+                    <hr />
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div ng-controller="usersController">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.actNo, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.TextBoxFor(model => model.actNo, new { ng_model = "acctNum", ng_change = "getbyeid(acctNum)" })
+                                @Html.ValidationMessageFor(model => model.actNo, "", new { @class = "text-danger" })
+
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.custName, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.TextBoxFor(model => model.custName, new { ng_model = "Emp.custName", Readonly = true })
+                                @Html.ValidationMessageFor(model => model.custName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.noOfLeaves, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.TextBoxFor(model => model.noOfLeaves, new { ng_model = "NoLeaves", ng_change = "NoLeavesChange(NoLeaves)" })
+                                @Html.ValidationMessageFor(model => model.noOfLeaves, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+
+
+                        <div class="form-group" ng-init="GetChqStartNo(Chqs);">
+                            @Html.LabelFor(model => model.chqStartNo, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.TextBoxFor(model => model.chqStartNo, new { type = "text", ng_model = "Chqs.chqStartNo" })
+                                @Html.ValidationMessageFor(model => model.chqStartNo, "", new { @class = "text-danger" })
+
+                            </div>
+
+                        </div>
+
+
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.chqEndNo, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.TextBoxFor(model => model.chqEndNo, new { ng_model = "ChqEndNo", Readonly = true })
+                                @Html.ValidationMessageFor(model => model.chqEndNo, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" ng-controller="myCntrl-2" ng-init="ReadVal();">
+                        @Html.LabelFor(model => model.chqIssuedBy, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(model => model.chqIssuedBy, new { ng_model = "ValueRead", Readonly = true })
+                            @Html.ValidationMessageFor(model => model.chqIssuedBy, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+
+                    <div class="form-group" ng-controller="usersController">
+                        @Html.LabelFor(model => model.issuedDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(model => model.issuedDate, new { ng_model = "today | date", Readonly = true})
+                            @Html.ValidationMessageFor(model => model.issuedDate, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Create" class="btn btn-default" />
+                            <div ng-controller="usersController" class="divRight">
+                                <input type="text" ng-model="custname" , ng-change="getbyeidforchq(custname)" name="txtSearch" />
+                                <br /><br />
+                                <table border="1">
+                                    <tr>
+                                        <th>Cheque Number</th>
+                                        <th>Customer Name</th>
+                                        <th>Cheque Status</th>
+                                    </tr>
+                                    <tr ng-repeat="cheqs in Cheque">
+                                        <td> {{cheqs.chqNo}} </td>
+                                        <td> {{cheqs.custName}} </td>
+                                        <td> {{cheqs.status}} </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            }
+      
+        
+  
+   

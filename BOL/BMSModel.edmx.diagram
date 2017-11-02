@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="99e9619337ad4e2db9a295ceac21dbcb" Name="Diagram1">
+        <EntityTypeShape EntityType="BMS2Model.C__MigrationHistory" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BMS2Model.aspnet_Applications" Width="1.5" PointX="0.75" PointY="7.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="BMS2Model.aspnet_Membership" Width="1.5" PointX="6" PointY="9.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="BMS2Model.aspnet_Paths" Width="1.5" PointX="3" PointY="6.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="BMS2Model.aspnet_PersonalizationAllUsers" Width="1.5" PointX="5.25" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BMS2Model.aspnet_PersonalizationPerUser" Width="1.5" PointX="5.25" PointY="3.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="BMS2Model.aspnet_Profile" Width="1.5" PointX="10.5" PointY="11.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="BMS2Model.aspnet_Roles" Width="1.5" PointX="3" PointY="15.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BMS2Model.aspnet_SchemaVersions" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BMS2Model.aspnet_Users" Width="1.5" PointX="8.25" PointY="11.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="BMS2Model.aspnet_WebEvent_Events" Width="1.5" PointX="2.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BMS2Model.AspNetRole" Width="1.5" PointX="7.75" PointY="2.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="BMS2Model.AspNetUserClaim" Width="1.5" PointX="12.25" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="BMS2Model.AspNetUserLogin" Width="1.5" PointX="12.25" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BMS2Model.AspNetUser" Width="1.5" PointX="10" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="BMS2Model.tblAccountStatu" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BMS2Model.tblactType" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BMS2Model.tblBankDetail" Width="1.5" PointX="7.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BMS2Model.tblChqCancellation" Width="1.5" PointX="9.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BMS2Model.tblChqIssue" Width="1.5" PointX="11.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BMS2Model.tblchqNo" Width="1.5" PointX="12.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BMS2Model.tblDeposit" Width="1.5" PointX="13.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BMS2Model.tblEmployeeDetail" Width="1.5" PointX="12.75" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BMS2Model.tblLedger" Width="1.5" PointX="14.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BMS2Model.tblLoanType" Width="1.5" PointX="15.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BMS2Model.tblLogin" Width="1.5" PointX="5.75" PointY="15.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BMS2Model.tblWithdrawal" Width="1.5" PointX="7.75" PointY="15.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BMS2Model.tblOpenAct" Width="1.5" PointX="9.75" PointY="15.75" IsExpanded="true" />
+        <AssociationConnector Association="BMS2Model.FK__aspnet_Me__Appli__29221CFB" ManuallyRouted="false" />
+        <AssociationConnector Association="BMS2Model.FK__aspnet_Pa__Appli__5AB9788F" ManuallyRouted="false" />
+        <AssociationConnector Association="BMS2Model.FK__aspnet_Ro__Appli__47A6A41B" ManuallyRouted="false" />
+        <AssociationConnector Association="BMS2Model.FK__aspnet_Us__Appli__18EBB532" ManuallyRouted="false" />
+        <AssociationConnector Association="BMS2Model.FK__aspnet_Me__UserI__2A164134" ManuallyRouted="false" />
+        <AssociationConnector Association="BMS2Model.FK__aspnet_Pe__PathI__607251E5" ManuallyRouted="false" />
+        <AssociationConnector Association="BMS2Model.FK__aspnet_Pe__PathI__6442E2C9" ManuallyRouted="false" />
+        <AssociationConnector Association="BMS2Model.FK__aspnet_Pe__UserI__65370702" ManuallyRouted="false" />
+        <AssociationConnector Association="BMS2Model.FK__aspnet_Pr__UserI__3E1D39E1" ManuallyRouted="false" />
+        <AssociationConnector Association="BMS2Model.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
+        <AssociationConnector Association="BMS2Model.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
+        <AssociationConnector Association="BMS2Model.aspnet_UsersInRoles" ManuallyRouted="false" />
+        <AssociationConnector Association="BMS2Model.AspNetUserRoles" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="BMS2Model.tblLoan" Width="1.5" PointX="15.375" PointY="10.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

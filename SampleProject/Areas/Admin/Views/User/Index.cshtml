@@ -1,0 +1,13 @@
+﻿@model IEnumerable<BOL.AspNetUser>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<p>
+    @*@Html.ActionLink("Register New User", "Register", new { Controller = "Login", Area = "Security" }) | @Html.ActionLink("Manage Roles", "Roles", new { Controller = "Login", Area = "Security"*@ 
+    <a href="#!/ListUser">List Users</a> | <a href="#!/Register">Register New User</a> | <a href="#!/ManageRoles">Manage Roles</a> 
+</p>
+
