@@ -16,3 +16,13 @@ textarea {
     max-width: 280px;
 }
 
+.navbar-inverse {
+    background-color: #311B92;
+    border-color: #311B92;
+}
+
+.panel-primary > .panel-heading {
+    color: #ffffff;
+    background-color: #1A237E;
+    border-color: #1A237E;
+}
